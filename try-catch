@@ -1,0 +1,43 @@
+pipeline
+{
+    agent any
+    stages
+    {
+        stage('download')
+        {
+            steps
+            {
+                script
+                {
+                    try
+                    {
+                        git 'https://github.com/IntelliqDevops/maven.git'
+                    }
+                    catch (Exception e1)
+                    {
+                        mail bcc: '', body: 'developer code is failure ', cc: 'devopler@gmnail.com', from: '', replyTo: '', subject: 'developercode failure', to: 'gaddamchandrakanth13@gmail.com'
+                        exit(1)
+                    }
+                }
+            }
+        }
+        stage('build')
+        {
+            steps
+            {
+                script
+                {
+                    try
+                    {
+                        sh 'mvn package'
+                    }
+                    catch (Exception e2)
+                    {
+                        mail bcc: '', body: 'jenkins unable to download artifact failure ', cc: 'devopler@gmnail.com', from: '', replyTo: '', subject: 'artifact failure ', to: 'gaddamchandrakanth13@gmail.com'
+                        exit(1)
+                    }
+                }
+            }
+        }
+    }
+}
