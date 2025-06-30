@@ -1,0 +1,25 @@
+pipeline
+{
+    agent any
+    stages
+    {
+        stage('download')
+        {
+            steps
+            {
+                git 'https://github.com/IntelliqDevops/maven.git'
+            }
+        }
+    }
+    post
+    {
+        success
+        {
+             sh 'mvn package'
+        }
+        failure
+        {
+            mail bcc: '', body: 'cont download failure', cc: 'mvn@gmnail.com', from: '', replyTo: '', subject: 'mvn package fail', to: 'gaddamchandrakanth13@gmail.com'
+        }
+    }
+}
